@@ -4,8 +4,7 @@
   "description": "Simple Express.js app for Azure Web Apps",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"No tests specified\""
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.2"
