@@ -1,30 +1,19 @@
-// test.js
-const http = require('http');
+const express = require('express');
+const app = express();
 
-// Simple test to check if the app starts
-const options = {
-  hostname: 'localhost',
-  port: 3000,
-  path: '/',
-  method: 'GET'
-};
+// Use Azure's PORT environment variable or default to 8080
+const port = process.env.PORT || 8080;
 
-console.log('Running basic connectivity test...');
-
-const req = http.request(options, (res) => {
-  console.log(`Status: ${res.statusCode}`);
-  if (res.statusCode === 200) {
-    console.log('✓ Test passed: Server is responding');
-    process.exit(0);
-  } else {
-    console.log('✗ Test failed: Server returned error status');
-    process.exit(1);
-  }
+app.get('/', (req, res) => {
+  res.send('Hello! The app is running successfully on Azure!');
 });
 
-req.on('error', (e) => {
-  console.log('✓ Test passed: App structure is valid (server not running during build)');
-  process.exit(0);
+// Add a health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-req.end();
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server listening on port ${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
